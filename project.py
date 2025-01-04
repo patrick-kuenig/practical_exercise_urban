@@ -7,7 +7,7 @@ pd.options.display.max_rows = 999
 class PriceMachine:
 
     def __init__(self):
-        self.data = self.load_prices() # Инициирует таблицу со всеми данными сразу при создании объекта
+        self.data = self.load_prices()  # Инициирует таблицу со всеми данными сразу при создании объекта
         self.result = ''
 
     @staticmethod
@@ -33,7 +33,7 @@ class PriceMachine:
 
         # Поиск файлов с нужными названиями в текущей папке (не было указаний, как делать - можно и улучшить)
         files = [file for file in os.listdir(file_path) if 'price' in file.lower() and file.lower().endswith('.csv')]
-        df_list = [] # Добавляем dataframe после парсинга каждого файла в этот список
+        df_list = []  # Добавляем dataframe после парсинга каждого файла в этот список
         # Список достустимых названий для столбцов
         final_table_cols = ["название", "продукт", "товар", "наименование", "цена", "розница", "фасовка", "масса",
                             "вес"]
@@ -67,10 +67,10 @@ class PriceMachine:
             elif "вес" in columns_list:
                 mass_index = columns_list.index("вес")
 
-            df = df.iloc[:, [name_index, price_index, mass_index, 3]] # Делается порядок
-            df = df.set_axis(['название', 'цена', 'вес', 'файл'], axis=1) # Ставятся одинаковые названия столбцов
+            df = df.iloc[:, [name_index, price_index, mass_index, 3]]  # Делается порядок
+            df = df.set_axis(['название', 'цена', 'вес', 'файл'], axis=1)  # Ставятся одинаковые названия столбцов
             df['цена за кг.'] = round(df['цена'] / df['вес'], 1)
-            df_list.append(df) # Соединяются все таблицы
+            df_list.append(df)  # Соединяются все таблицы
 
         data = pd.concat(df_list).sort_values('цена за кг.').reset_index(drop=True)
         return data
